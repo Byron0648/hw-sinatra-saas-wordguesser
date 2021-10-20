@@ -12,10 +12,8 @@ class WordGuesserGame
     @wrong_guesses = ''
     @word_with_guesses = ''
     @count = 0
-    $i=0
-    while $i<@word.size do
-      $i+=1
-      @word_with_guesses=@word_with_guesses + '-'
+    for i in 1..word.size
+	    @word_with_guesses.concat('-')
     end
   end
 
@@ -32,28 +30,28 @@ class WordGuesserGame
     }
   end
 
+  def is_letter(guess_letter)
+    if (guess_letter >= 'a' && guess_letter <= 'z') || (guess_letter >= 'A' && guess_letter <= 'Z')
+      return true
+    else
+      return false
+    end
+  end
+
   def guess(guess_letter)
-    raise ArgumentError if guess_letter == '' or guess_letter=~/[^a-zA-Z]/ or guess_letter==nil
+    raise ArgumentError if guess_letter == '' or guess_letter==nil or !is_letter(guess_letter)
     guess_letter=guess_letter.downcase
     if guesses.include? guess_letter or wrong_guesses.include? guess_letter
       return false
     elsif word.include? guess_letter
-      # Initialize a loop variable
-      len = 0
-      # do loop begins
-      loop do
-        if guess_letter == word[len]
-          word_with_guesses[len] = guess_letter
-        end 
-        len += 1
-        if (len == word.size)
-          break
+      for i in 0..word.size-1
+        if guess_letter == word[i]
+          word_with_guesses[i] = guess_letter
         end
       end
       @guesses = guess_letter
       @count += 1
       return true
-      
     elsif !word.include? guess_letter 
       @wrong_guesses = guess_letter
       @count += 1
