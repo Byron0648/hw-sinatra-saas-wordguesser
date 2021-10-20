@@ -56,17 +56,23 @@ class WordGuesserApp < Sinatra::Base
   # wrong_guesses and word_with_guesses from @game.
   get '/show' do
     ### YOUR CODE HERE ###
-    erb :show # You may change/remove this line
+    if @game.check_win_or_lose != :play
+      erb @game.check_win_or_lose
+    else
+      erb :show # You may change/remove this line 
+    end
   end
   
   get '/win' do
     ### YOUR CODE HERE ###
-    erb :win # You may change/remove this line
+    redirect '/show'
+    # erb :win # You may change/remove this line
   end
   
   get '/lose' do
     ### YOUR CODE HERE ###
-    erb :lose # You may change/remove this line
+    redirect '/show'
+    # erb :lose # You may change/remove this line
   end
   
 end
